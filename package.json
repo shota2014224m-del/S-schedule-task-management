@@ -7,9 +7,9 @@
     "url": "http://local_proxy@127.0.0.1:41787/git/shota2014224m-del/S-schedule-task-management"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev -p 3100",
     "build": "prisma generate && next build",
-    "start": "next start",
+    "start": "next start -p 3100",
     "lint": "next lint",
     "db:push": "prisma db push",
     "db:studio": "prisma studio"

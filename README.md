@@ -39,14 +39,14 @@ npx prisma db push
 
 # 4. 開発サーバ起動
 npm run dev
-# http://localhost:3000 を iPhone/iPad/MacBook のブラウザで開く
+# http://localhost:3100 を iPhone/iPad/MacBook のブラウザで開く
 ```
 
 ### Google OAuth の設定
 
 1. https://console.cloud.google.com/apis/credentials で OAuth 2.0 クライアント ID を作成
 2. 種類: ウェブアプリケーション
-3. 承認済みリダイレクト URI に `http://localhost:3000/api/auth/callback/google` を追加
+3. 承認済みリダイレクト URI に `http://localhost:3100/api/auth/callback/google` を追加
    (本番は `https://<your-domain>/api/auth/callback/google`)
 4. 「Google Calendar API」を有効化
 5. 発行されたクライアント ID / シークレットを `.env` にセット
