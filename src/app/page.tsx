@@ -12,14 +12,7 @@ export default function TodayPage() {
           押すと AI が次の空き時間にリスケジュールします。
         </p>
       </section>
-      <TaskList
-        filter={(t) =>
-          t.status !== "DONE" &&
-          (!t.scheduledStart ||
-            new Date(t.scheduledStart).toDateString() ===
-              new Date().toDateString())
-        }
-      />
+      <TaskList mode="today" />
     </div>
   );
 }

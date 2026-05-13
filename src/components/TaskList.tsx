@@ -4,11 +4,9 @@ import { useCallback, useEffect, useState } from "react";
 import QuickAdd from "./QuickAdd";
 import TaskCard, { type TaskDTO } from "./TaskCard";
 
-export default function TaskList({
-  filter,
-}: {
-  filter?: (t: TaskDTO) => boolean;
-}) {
+type Mode = "today" | "all";
+
+export default function TaskList({ mode = "all" }: { mode?: Mode }) {
   const [tasks, setTasks] = useState<TaskDTO[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -24,7 +22,7 @@ export default function TaskList({
     load();
   }, [load]);
 
-  const visible = filter ? tasks.filter(filter) : tasks;
+  const visible = applyFilter(tasks, mode);
 
   return (
     <div className="flex flex-col gap-3">
@@ -39,5 +37,16 @@ export default function TaskList({
         ))
       )}
     </div>
+  );
+}
+
+function applyFilter(tasks: TaskDTO[], mode: Mode): TaskDTO[] {
+  if (mode === "all") return tasks;
+  const today = new Date().toDateString();
+  return tasks.filter(
+    (t) =>
+      t.status !== "DONE" &&
+      (!t.scheduledStart ||
+        new Date(t.scheduledStart).toDateString() === today)
   );
 }
