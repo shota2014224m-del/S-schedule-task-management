@@ -9,6 +9,8 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID ?? "",
       clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+      // 個人用アプリのため、同じメールアドレスなら自動でアカウントをリンクする
+      allowDangerousEmailAccountLinking: true,
       authorization: {
         params: {
           scope:
