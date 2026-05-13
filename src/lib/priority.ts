@@ -1,4 +1,5 @@
-import type { Priority } from "@prisma/client";
+export type Priority = "HIGH" | "MID" | "LOW";
+export type TaskStatus = "PENDING" | "SCHEDULED" | "DONE" | "MISSED";
 
 export const priorityRank: Record<Priority, number> = {
   HIGH: 0,
@@ -17,3 +18,7 @@ export const priorityLabel: Record<Priority, string> = {
   MID: "中",
   LOW: "低",
 };
+
+export function asPriority(v: string | null | undefined): Priority {
+  return v === "HIGH" || v === "LOW" ? v : "MID";
+}

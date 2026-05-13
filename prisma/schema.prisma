@@ -7,27 +7,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// 優先度 (AIが判定 or ユーザが指定)
-enum Priority {
-  HIGH
-  MID
-  LOW
-}
-
-enum TaskStatus {
-  PENDING
-  SCHEDULED
-  DONE
-  MISSED
-}
-
+// SQLiteは enum 非対応のため String で表現する
+// Priority: "HIGH" | "MID" | "LOW"
+// TaskStatus: "PENDING" | "SCHEDULED" | "DONE" | "MISSED"
 model Task {
   id              String     @id @default(cuid())
   title           String
   notes           String?
   // AIが付与するカテゴリ (例: "仕事", "勉強", "雑務" など)
   category        String?
-  priority        Priority   @default(MID)
+  priority        String     @default("MID")
   // AIによる見積もり所要時間 (分)
   estimatedMin    Int?
   // ユーザ指定の期限 (任意)
@@ -36,7 +25,7 @@ model Task {
   gcalEventId     String?
   scheduledStart  DateTime?
   scheduledEnd    DateTime?
-  status          TaskStatus @default(PENDING)
+  status          String     @default("PENDING")
   createdAt       DateTime   @default(now())
   updatedAt       DateTime   @updatedAt
 }

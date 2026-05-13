@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/db";
 import { estimateTask } from "@/lib/claude";
-import { priorityRank } from "@/lib/priority";
+import { asPriority, priorityRank } from "@/lib/priority";
 
 const createSchema = z.object({
   title: z.string().min(1),
@@ -19,7 +19,7 @@ export async function GET() {
   });
   // 優先度順 → 期限順 にメモリ上で並べ替え
   tasks.sort((a, b) => {
-    const p = priorityRank[a.priority] - priorityRank[b.priority];
+    const p = priorityRank[asPriority(a.priority)] - priorityRank[asPriority(b.priority)];
     if (p !== 0) return p;
     const ad = a.dueAt?.getTime() ?? Infinity;
     const bd = b.dueAt?.getTime() ?? Infinity;

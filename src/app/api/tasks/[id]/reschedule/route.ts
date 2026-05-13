@@ -10,6 +10,7 @@ import {
   listBusy,
   priorityToColorId,
 } from "@/lib/google";
+import { asPriority } from "@/lib/priority";
 import { addDays } from "date-fns";
 
 /**
@@ -49,10 +50,11 @@ export async function POST(
   const horizonEnd = addDays(now, 7);
   const busy = await listBusy(cal, now.toISOString(), horizonEnd.toISOString());
 
+  const priority = asPriority(task.priority);
   const suggestion = await suggestReschedule({
     title: task.title,
     estimatedMin: task.estimatedMin ?? 30,
-    priority: task.priority,
+    priority,
     busy,
     workDayStart: process.env.WORK_DAY_START ?? "09:00",
     workDayEnd: process.env.WORK_DAY_END ?? "22:00",
@@ -64,7 +66,7 @@ export async function POST(
     description: task.notes ?? undefined,
     startISO: suggestion.start,
     endISO: suggestion.end,
-    colorId: priorityToColorId[task.priority],
+    colorId: priorityToColorId[priority],
   });
 
   const updated = await prisma.task.update({

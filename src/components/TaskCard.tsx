@@ -1,7 +1,12 @@
 "use client";
 
-import { priorityColor, priorityLabel } from "@/lib/priority";
-import type { Priority, TaskStatus } from "@prisma/client";
+import {
+  asPriority,
+  priorityColor,
+  priorityLabel,
+  type Priority,
+  type TaskStatus,
+} from "@/lib/priority";
 
 export type TaskDTO = {
   id: string;
@@ -53,7 +58,7 @@ export default function TaskCard({
   return (
     <div
       className="border border-white/10 rounded-xl p-3 bg-white/5 flex flex-col gap-2"
-      style={{ borderLeft: `4px solid ${priorityColor[task.priority]}` }}
+      style={{ borderLeft: `4px solid ${priorityColor[asPriority(task.priority)]}` }}
     >
       <div className="flex items-start justify-between gap-2">
         <div>
@@ -66,9 +71,9 @@ export default function TaskCard({
         </div>
         <span
           className="text-[10px] px-2 py-0.5 rounded-full"
-          style={{ background: priorityColor[task.priority] }}
+          style={{ background: priorityColor[asPriority(task.priority)] }}
         >
-          優先度 {priorityLabel[task.priority]}
+          優先度 {priorityLabel[asPriority(task.priority)]}
         </span>
       </div>
       <div className="text-xs text-white/60 flex flex-wrap gap-3">
